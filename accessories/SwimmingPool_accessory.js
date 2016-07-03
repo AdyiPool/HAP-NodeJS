@@ -16,6 +16,14 @@ var FAKE_LIGHT = {
     console.log("Setting swimming pool light brightness to %s", brightness);
     FAKE_LIGHT.brightness = brightness;
   },
+  setHue: function(hue){
+    console.log("Setting swimming pool light Hue to %s", hue);
+    FAKE_LIGHT.hue = hue;
+  },
+  setSaturation: function(saturation){
+    console.log("Setting swimming pool light Saturation to %s", saturation);
+    FAKE_LIGHT.saturation = saturation;
+  },
   identify: function() {
     console.log("Identify the swimming pool light!");
   }
@@ -90,3 +98,25 @@ light
     FAKE_LIGHT.setBrightness(value);
     callback();
   })
+
+  light
+  .getService(Service.Lightbulb)
+  .addCharacteristic(Characteristic.Hue)
+  .on('get',function(callback){
+   callback(null,FAKE_LIGHT.hue);
+   })
+   .on('set',function(value,callback){
+   FAKE_LIGHT.setHue(value);
+   callback();   
+   })
+
+light
+  .getService(Service.Lightbulb)
+  .addCharacteristic(Characteristic.Saturation)
+  .on('get',function(callback){
+   callback(null,FAKE_LIGHT.saturation);
+   })
+   .on('set',function(value,callback){
+   FAKE_LIGHT.setSaturation(value);
+   callback();   
+   })
