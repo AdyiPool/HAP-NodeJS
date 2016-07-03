@@ -1,6 +1,8 @@
 HAP-NodeJS
 ==========
 
+* Testing change on a branch *
+
 HAP-NodeJS is a Node.js implementation of HomeKit Accessory Server.
 
 With this project, you should be able to create your own HomeKit Accessory on Raspberry Pi, Intel Edison or any other platform that can run Node.js :)
