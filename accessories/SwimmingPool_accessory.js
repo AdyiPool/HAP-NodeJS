@@ -10,15 +10,19 @@ var FAKE_LIGHT = {
   animationOn: false,
   
   setPowerOn: function(on) { 
-    console.log("Turning the swimming pool lights %s!", on ? "on" : "off");
+    console.log("Turning the swimming pool lights 🏊 %s!", on ? "on" : "off");
     FAKE_LIGHT.powerOn = on;
   },
-  setAnimationOn: function(on) { 
-    console.log("Turning the swimming pool light show %s!", on ? "on" : "off");
+  setAnimation1On: function(on) { 
+    console.log("Turning the swimming pool light show ✨ 1️⃣  %s!", on ? "on" : "off");
+    FAKE_LIGHT.animationOn = on;
+  },
+  setAnimation2On: function(on) { 
+    console.log("Turning the swimming pool light show ✨ 2️⃣  %s!", on ? "on" : "off");
     FAKE_LIGHT.animationOn = on;
   },
   setBrightness: function(brightness) {
-    console.log("Setting swimming pool light brightness to %s", brightness);
+    console.log("Setting swimming pool light brightness ☀️ to %s", brightness);
     FAKE_LIGHT.brightness = brightness;
   },
   setHue: function(hue){
@@ -26,7 +30,7 @@ var FAKE_LIGHT = {
     FAKE_LIGHT.hue = hue;
   },
   setSaturation: function(saturation){
-    console.log("Setting swimming pool light Saturation to %s", saturation);
+    console.log("Setting swimming pool light Saturation 💥 to %s", saturation);
     FAKE_LIGHT.saturation = saturation;
   },
   identify: function() {
@@ -92,19 +96,19 @@ light
     }
   });
 
-// Light show 
+// Light show #1
 
 light
   .getService(Service.Lightbulb)
-  .getCharacteristic(Characteristic.LightShow)
+  .getCharacteristic(Characteristic.LightShow1)
   .on('set', function(value, callback) {
-    FAKE_LIGHT.setAnimationOn(value);
+    FAKE_LIGHT.setAnimation1On(value);
     callback(); // Our fake Light is synchronous - this value has been successfully set
   });
 
 light
   .getService(Service.Lightbulb)
-  .getCharacteristic(Characteristic.LightShow)
+  .getCharacteristic(Characteristic.LightShow1)
   .on('get', function(callback) {
     
     // this event is emitted when you ask Siri directly whether your light is on or not. you might query
@@ -113,12 +117,44 @@ light
     
     var err = null; // in case there were any problems
     
-    if (FAKE_LIGHT.LightShow) {
-      console.log("Is swimming pool light show on? Yes.");
+    if (FAKE_LIGHT.LightShow1) {
+      console.log("Is swimming pool light show #1 on? Yes.");
       callback(err, true);
     }
     else {
-      console.log("Is swimming pool light show on? No.");
+      console.log("Is swimming pool light show #1 on? No.");
+      callback(err, false);
+    }
+  });
+
+
+// Light show #2
+
+light
+  .getService(Service.Lightbulb)
+  .getCharacteristic(Characteristic.LightShow2)
+  .on('set', function(value, callback) {
+    FAKE_LIGHT.setAnimation2On(value);
+    callback(); // Our fake Light is synchronous - this value has been successfully set
+  });
+
+light
+  .getService(Service.Lightbulb)
+  .getCharacteristic(Characteristic.LightShow2)
+  .on('get', function(callback) {
+    
+    // this event is emitted when you ask Siri directly whether your light is on or not. you might query
+    // the light hardware itself to find this out, then call the callback. But if you take longer than a
+    // few seconds to respond, Siri will give up.
+    
+    var err = null; // in case there were any problems
+    
+    if (FAKE_LIGHT.LightShow2) {
+      console.log("Is swimming pool light show #2 on? Yes.");
+      callback(err, true);
+    }
+    else {
+      console.log("Is swimming pool light show #2 on? No.");
       callback(err, false);
     }
   });
