@@ -2,6 +2,8 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
+var Spinner = require('cli-spinner').Spinner;
+var delay = 5000;
 
 // here's a fake hardware device that we'll expose to HomeKit
 var FAKE_LIGHT = {
@@ -16,10 +18,29 @@ var FAKE_LIGHT = {
   setAnimation1On: function(on) { 
     console.log("Turning the swimming pool light show ✨ 1️⃣  %s!", on ? "on" : "off");
     FAKE_LIGHT.animationOn = on;
+    if (on) {
+      var spinner = new Spinner('%s');
+      spinner.setSpinnerString('|/-\\');
+      spinner.start();
+      setTimeout(() => {
+        spinner.stop(true)
+      },2000)
+    }
+
   },
   setAnimation2On: function(on) { 
     console.log("Turning the swimming pool light show ✨ 2️⃣  %s!", on ? "on" : "off");
     FAKE_LIGHT.animationOn = on;
+
+    if (on) {
+      var spinner = new Spinner('%s');
+      spinner.setSpinnerString('|/-\\');
+      spinner.start();
+      setTimeout(() => {
+        spinner.stop(true)
+      },2000)
+    }
+
   },
   setBrightness: function(brightness) {
     console.log("Setting swimming pool light brightness ☀️ to %s", brightness);
@@ -117,7 +138,7 @@ light
     
     var err = null; // in case there were any problems
     
-    if (FAKE_LIGHT.LightShow1) {
+    if (FAKE_LIGHT.animationOn) {
       console.log("Is swimming pool light show #1 on? Yes.");
       callback(err, true);
     }
@@ -149,7 +170,7 @@ light
     
     var err = null; // in case there were any problems
     
-    if (FAKE_LIGHT.LightShow2) {
+    if (FAKE_LIGHT.animationOn) {
       console.log("Is swimming pool light show #2 on? Yes.");
       callback(err, true);
     }
