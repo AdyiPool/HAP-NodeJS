@@ -95,7 +95,7 @@ light
 // Light show 
 
 light
-  .addService(Service.Lightbulb, "Swimming Pool Light Show") // services exposed to the user should have "names" like "Fake Light" for us
+  .getService(Service.Lightbulb)
   .getCharacteristic(Characteristic.LightShow)
   .on('set', function(value, callback) {
     FAKE_LIGHT.setAnimationOn(value);
@@ -157,4 +157,5 @@ light
    FAKE_LIGHT.setSaturation(value);
    callback();   
    })
+
 
