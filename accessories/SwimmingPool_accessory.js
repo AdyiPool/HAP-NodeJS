@@ -7,10 +7,15 @@ var uuid = require('../').uuid;
 var FAKE_LIGHT = {
   powerOn: false,
   brightness: 100, // percentage
+  animationOn: false,
   
   setPowerOn: function(on) { 
     console.log("Turning the swimming pool lights %s!", on ? "on" : "off");
     FAKE_LIGHT.powerOn = on;
+  },
+  setAnimationOn: function(on) { 
+    console.log("Turning the swimming pool light show %s!", on ? "on" : "off");
+    FAKE_LIGHT.animationOn = on;
   },
   setBrightness: function(brightness) {
     console.log("Setting swimming pool light brightness to %s", brightness);
@@ -87,6 +92,38 @@ light
     }
   });
 
+// Light show 
+
+light
+  .addService(Service.Lightbulb, "Swimming Pool Light Show") // services exposed to the user should have "names" like "Fake Light" for us
+  .getCharacteristic(Characteristic.LightShow)
+  .on('set', function(value, callback) {
+    FAKE_LIGHT.setAnimationOn(value);
+    callback(); // Our fake Light is synchronous - this value has been successfully set
+  });
+
+light
+  .getService(Service.Lightbulb)
+  .getCharacteristic(Characteristic.LightShow)
+  .on('get', function(callback) {
+    
+    // this event is emitted when you ask Siri directly whether your light is on or not. you might query
+    // the light hardware itself to find this out, then call the callback. But if you take longer than a
+    // few seconds to respond, Siri will give up.
+    
+    var err = null; // in case there were any problems
+    
+    if (FAKE_LIGHT.LightShow) {
+      console.log("Is swimming pool light show on? Yes.");
+      callback(err, true);
+    }
+    else {
+      console.log("Is swimming pool light show on? No.");
+      callback(err, false);
+    }
+  });
+
+
 // also add an "optional" Characteristic for Brightness
 light
   .getService(Service.Lightbulb)
@@ -120,3 +157,4 @@ light
    FAKE_LIGHT.setSaturation(value);
    callback();   
    })
+
