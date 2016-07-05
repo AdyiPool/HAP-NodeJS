@@ -54,5 +54,3 @@ Special thanks to [Alex Skalozub](https://twitter.com/pieceofsummer), who revers
 
 If you are interested in HAP over BTLE, you might want to check [this](https://gist.github.com/KhaosT/6ff09ba71d306d4c1079).
 
-
-*Testing Slack Integration*
