@@ -22,16 +22,15 @@ var FAKE_SENSOR = {
     },
     read: function () {
         
-      if (sensor.initialize()) {
-        sensor.read();
-      } else {
+      if (FAKE_SENSOR.initialize()) {
+        var readout = sensorLib.read();
+        console.log('Temperature: ' + readout.temperature.toFixed(2) + 'C, ' + 'humidity: ' + readout.humidity.toFixed(2) + '%');
+        FAKE_SENSOR.currentTemperature = readout.temperature.toFixed(2);
+      } 
+      else {
         console.warn('Failed to initialize sensor');
-    }
+      }
 
-      var readout = sensorLib.read();
-      console.log('Temperature: ' + readout.temperature.toFixed(2) + 'C, ' +
-          'humidity: ' + readout.humidity.toFixed(2) + '%');
-      FAKE_SENSOR.currentTemperature = readout.temperature.toFixed(2);
       // setTimeout(function () {
       //     FAKE_SENSOR.read();
       // }, 2000);
