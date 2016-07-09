@@ -94,19 +94,19 @@ var FAKE_LIGHT = {
   setBrightness: function(brightness) {
     console.log("Setting swimming pool light brightness ☀️ to %s a,d Hue: %s Saturation: %s", brightness, FAKE_LIGHT.hue, FAKE_LIGHT.saturation);
     var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,brightness/100);
-    console.log("rgb: ",,rgb[0], rgb[1], rgb[2]); 
+    console.log("rgb: ",rgb[0], rgb[1], rgb[2]); 
     FAKE_LIGHT.brightness = brightness;
   },
   setHue: function(hue){
     console.log("Setting swimming pool light Hue to %s", hue);
     var rgb = color.hsvToRgb(hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.brightness/100);
-    console.log("rgb: ",,rgb[0], rgb[1], rgb[2]); 
+    console.log("rgb: ",rgb[0], rgb[1], rgb[2]); 
     FAKE_LIGHT.hue = hue;
   },
   setSaturation: function(saturation){
     console.log("Setting swimming pool light Saturation 💥 to %s", saturation);
     var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,saturation/100,FAKE_LIGHT.brightness/100);
-    console.log("rgb: ",,rgb[0], rgb[1], rgb[2]); 
+    console.log("rgb: ",rgb[0], rgb[1], rgb[2]); 
     FAKE_LIGHT.saturation = saturation;
   },
   identify: function() {
