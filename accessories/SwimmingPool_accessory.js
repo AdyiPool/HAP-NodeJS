@@ -8,7 +8,7 @@ var refreshIntervalId;
 var refreshIntervalId2;
 
 var r=0, g=0, b=0;
-var rgb;
+
 
 var NUM_LEDS = 8,
 pixelData = new Uint32Array(NUM_LEDS);
@@ -93,19 +93,19 @@ var FAKE_LIGHT = {
   },
   setBrightness: function(brightness) {
     console.log("Setting swimming pool light brightness ☀️ to %s", brightness);
-    rgb = color.hsvToRgb(FAKE_LIGHT.hue,FAKE_LIGHT.saturation,brightness);
+    var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,brightness/100);
     console.log("rgb: ",rgb); 
     FAKE_LIGHT.brightness = brightness;
   },
   setHue: function(hue){
     console.log("Setting swimming pool light Hue to %s", hue);
-    rgb = color.hsvToRgb(hue,FAKE_LIGHT.saturation,FAKE_LIGHT.brightness);
+    var rgb = color.hsvToRgb(hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.brightness/100);
     console.log("rgb: ",rgb); 
     FAKE_LIGHT.hue = hue;
   },
   setSaturation: function(saturation){
     console.log("Setting swimming pool light Saturation 💥 to %s", saturation);
-    rgb = color.hsvToRgb(FAKE_LIGHT.hue,saturation,FAKE_LIGHT.brightness);
+    var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,saturation/100,FAKE_LIGHT.brightness/100);
     console.log("rgb: ",rgb); 
     FAKE_LIGHT.saturation = saturation;
   },
