@@ -3,8 +3,12 @@ var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
 var ws281x = require('rpi-ws281x-native');
+var color = require('./color.js');
 var refreshIntervalId;
 var refreshIntervalId2;
+
+var r=0, g=0, b=0;
+var rgb;
 
 var NUM_LEDS = 8,
 pixelData = new Uint32Array(NUM_LEDS);
@@ -87,14 +91,20 @@ var FAKE_LIGHT = {
   },
   setBrightness: function(brightness) {
     console.log("Setting swimming pool light brightness ☀️ to %s", brightness);
+    rgb = color.hsvToRgb(hue,saturation,brightness);
+    console.log("rgb: ",rgb); 
     FAKE_LIGHT.brightness = brightness;
   },
   setHue: function(hue){
     console.log("Setting swimming pool light Hue to %s", hue);
+    rgb = color.hsvToRgb(hue,saturation,brightness);
+    console.log("rgb: ",rgb); 
     FAKE_LIGHT.hue = hue;
   },
   setSaturation: function(saturation){
     console.log("Setting swimming pool light Saturation 💥 to %s", saturation);
+    rgb = color.hsvToRgb(hue,saturation,brightness);
+    console.log("rgb: ",rgb); 
     FAKE_LIGHT.saturation = saturation;
   },
   identify: function() {
