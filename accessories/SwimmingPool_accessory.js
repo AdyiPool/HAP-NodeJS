@@ -3,7 +3,40 @@ var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
 var Spinner = require('cli-spinner').Spinner;
+var ws281x = require('rpi-ws281x-native');
+var refreshIntervalId;
+var refreshIntervalId2;
+
+var NUM_LEDS = 8,
+pixelData = new Uint32Array(NUM_LEDS);
+
 var delay = 5000;
+
+ws281x.init(NUM_LEDS);
+
+// ---- trap the SIGINT and reset before exit
+process.on('SIGINT', function () {
+  ws281x.reset();
+  process.nextTick(function () { process.exit(0); });
+});
+
+// ---- animation-loop
+var offset = 0;
+
+console.log('Press <ctrl>+C to exit.');
+
+// rainbow-colors, taken from http://goo.gl/Cs3H0v
+function colorwheel(pos) {
+  pos = 255 - pos;
+  if (pos < 85) { return rgb2Int(255 - pos * 3, 0, pos * 3); }
+  else if (pos < 170) { pos -= 85; return rgb2Int(0, pos * 3, 255 - pos * 3); }
+  else { pos -= 170; return rgb2Int(pos * 3, 255 - pos * 3, 0); }
+}
+
+function rgb2Int(r, g, b) {
+  return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+}
+
 
 // here's a fake hardware device that we'll expose to HomeKit
 var FAKE_LIGHT = {
@@ -19,6 +52,26 @@ var FAKE_LIGHT = {
     console.log("Turning the swimming pool light show ✨ 1️⃣  %s!", on ? "on" : "off");
     FAKE_LIGHT.animationOn = on;
     if (on) {
+    
+ refreshIntervalId = setInterval(function () {
+  for (var i = 0; i < NUM_LEDS; i++) {
+    pixelData[i] = colorwheel((offset + i) % 256);
+  }
+
+  offset = (offset + 1) % 256;
+  ws281x.render(pixelData);
+}, 1000 / 30);
+
+console.log('Press <ctrl>+C to exit.');
+
+    }
+    else {
+    clearInterval(refreshIntervalId);
+    //ws281x.init(NUM_LEDS);
+    }
+
+
+    if (on) {
       var spinner = new Spinner('%s');
       spinner.setSpinnerString('|/-\\');
       spinner.start();
@@ -31,6 +84,28 @@ var FAKE_LIGHT = {
   setAnimation2On: function(on) { 
     console.log("Turning the swimming pool light show ✨ 2️⃣  %s!", on ? "on" : "off");
     FAKE_LIGHT.animationOn = on;
+    
+    if (on) {
+    // ---- animation-loop
+    var offset = 0;
+    refreshIntervalId2 = setInterval(function () {
+  var i=NUM_LEDS;
+  while(i--) {
+      pixelData[i] = 0;
+  }
+  pixelData[offset] = 0xffffff;
+
+  offset = (offset + 1) % NUM_LEDS;
+  ws281x.render(pixelData);
+}, 100);
+
+console.log('Press <ctrl>+C to exit.');
+
+
+    } 
+    else {
+    clearInterval(refreshIntervalId2);
+    }
 
     if (on) {
       var spinner = new Spinner('%s');

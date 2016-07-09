@@ -2,7 +2,7 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
-var sensorLib = require('node-dht-sensor');
+//var sensorLib = require('node-dht-sensor');
 
 // here's a fake temperature sensor device that we'll expose to HomeKit
 var FAKE_SENSOR = {
@@ -22,14 +22,14 @@ var FAKE_SENSOR = {
     },
     read: function () {
         
-      if (FAKE_SENSOR.initialize()) {
-        var readout = sensorLib.read();
-        console.log('Temperature: ' + readout.temperature.toFixed(2) + 'C, ' + 'humidity: ' + readout.humidity.toFixed(2) + '%');
-        FAKE_SENSOR.currentTemperature = readout.temperature.toFixed(2);
-      } 
-      else {
-        console.warn('Failed to initialize sensor');
-      }
+  //    if (FAKE_SENSOR.initialize()) {
+  //      var readout = sensorLib.read();
+  //      console.log('Temperature: ' + readout.temperature.toFixed(2) + 'C, ' + 'humidity: ' + readout.humidity.toFixed(2) + '%');
+  //      FAKE_SENSOR.currentTemperature = readout.temperature.toFixed(2);
+  //    } 
+  //    else {
+  //      console.warn('Failed to initialize sensor');
+  //    }
 
       // setTimeout(function () {
       //     FAKE_SENSOR.read();
@@ -75,3 +75,4 @@ setInterval(function() {
     .setCharacteristic(Characteristic.CurrentTemperature, FAKE_SENSOR.currentTemperature);
   
 }, 3000);
+
