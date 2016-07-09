@@ -43,6 +43,8 @@ var FAKE_LIGHT = {
   powerOn: false,
   brightness: 100, // percentage
   animationOn: false,
+  hue: 0,
+  saturation: 0,
   
   setPowerOn: function(on) { 
     console.log("Turning the swimming pool lights 🏊 %s!", on ? "on" : "off");
