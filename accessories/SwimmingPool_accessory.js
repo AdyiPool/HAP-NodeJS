@@ -96,6 +96,10 @@ var FAKE_LIGHT = {
     var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,brightness/100);
     console.log("rgb: ",rgb[0], rgb[1], rgb[2]); 
     FAKE_LIGHT.brightness = brightness;
+    for (var i = 0; i < NUM_LEDS; i++) {
+      pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+    }
+    ws281x.render(pixelData);
   },
   setHue: function(hue){
     console.log("Setting swimming pool light Hue to %s", hue);
