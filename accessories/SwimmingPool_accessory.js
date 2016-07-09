@@ -2,7 +2,6 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
-var Spinner = require('cli-spinner').Spinner;
 var ws281x = require('rpi-ws281x-native');
 var refreshIntervalId;
 var refreshIntervalId2;
@@ -10,7 +9,6 @@ var refreshIntervalId2;
 var NUM_LEDS = 8,
 pixelData = new Uint32Array(NUM_LEDS);
 
-var delay = 5000;
 
 ws281x.init(NUM_LEDS);
 
@@ -22,8 +20,6 @@ process.on('SIGINT', function () {
 
 // ---- animation-loop
 var offset = 0;
-
-console.log('Press <ctrl>+C to exit.');
 
 // rainbow-colors, taken from http://goo.gl/Cs3H0v
 function colorwheel(pos) {
@@ -52,70 +48,42 @@ var FAKE_LIGHT = {
     console.log("Turning the swimming pool light show ✨ 1️⃣  %s!", on ? "on" : "off");
     FAKE_LIGHT.animationOn = on;
     if (on) {
-    
- refreshIntervalId = setInterval(function () {
-  for (var i = 0; i < NUM_LEDS; i++) {
-    pixelData[i] = colorwheel((offset + i) % 256);
-  }
+      // start animation-loop
+      refreshIntervalId = setInterval(function () {
+        for (var i = 0; i < NUM_LEDS; i++) {
+          pixelData[i] = colorwheel((offset + i) % 256);
+        }
 
-  offset = (offset + 1) % 256;
-  ws281x.render(pixelData);
-}, 1000 / 30);
-
-console.log('Press <ctrl>+C to exit.');
-
+        offset = (offset + 1) % 256;
+        ws281x.render(pixelData);
+      }, 1000 / 30);
     }
     else {
-    clearInterval(refreshIntervalId);
-    //ws281x.init(NUM_LEDS);
+      // stop animation-loop
+      clearInterval(refreshIntervalId);
     }
-
-
-    if (on) {
-      var spinner = new Spinner('%s');
-      spinner.setSpinnerString('|/-\\');
-      spinner.start();
-      setTimeout(() => {
-        spinner.stop(true)
-      },2000)
-    }
-
   },
   setAnimation2On: function(on) { 
     console.log("Turning the swimming pool light show ✨ 2️⃣  %s!", on ? "on" : "off");
     FAKE_LIGHT.animationOn = on;
-    
     if (on) {
-    // ---- animation-loop
-    var offset = 0;
-    refreshIntervalId2 = setInterval(function () {
-  var i=NUM_LEDS;
-  while(i--) {
-      pixelData[i] = 0;
-  }
-  pixelData[offset] = 0xffffff;
+      // start animation-loop
+      var offset = 0;
+      refreshIntervalId2 = setInterval(function () {
+        var i=NUM_LEDS;
+        while(i--) {
+          pixelData[i] = 0;
+        }
+        pixelData[offset] = 0xffffff;
 
-  offset = (offset + 1) % NUM_LEDS;
-  ws281x.render(pixelData);
-}, 100);
-
-console.log('Press <ctrl>+C to exit.');
-
-
+        offset = (offset + 1) % NUM_LEDS;
+        ws281x.render(pixelData);
+      }, 100);
     } 
     else {
-    clearInterval(refreshIntervalId2);
+      // stop animation-loop
+      clearInterval(refreshIntervalId2);
     }
-
-    if (on) {
-      var spinner = new Spinner('%s');
-      spinner.setSpinnerString('|/-\\');
-      spinner.start();
-      setTimeout(() => {
-        spinner.stop(true)
-      },2000)
-    }
-
   },
   setBrightness: function(brightness) {
     console.log("Setting swimming pool light brightness ☀️ to %s", brightness);
