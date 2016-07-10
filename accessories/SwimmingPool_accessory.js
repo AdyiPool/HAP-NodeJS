@@ -72,6 +72,9 @@ var FAKE_LIGHT = {
     }
   },
   setAnimation2On: function(on) { 
+
+    var saturation = 0;
+
     console.log("Turning the swimming pool light show ✨ 2️⃣  %s!", on ? "on" : "off");
     FAKE_LIGHT.animationOn = on;
     if (on) {
