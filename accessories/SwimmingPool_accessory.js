@@ -4,28 +4,16 @@ var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
 var ws281x = require('rpi-ws281x-native');
 var color = require('./color.js');
-var refreshIntervalId;
-var refreshIntervalId2;
 
+// NeoPixel realted declarations and instantiations
 var r=0, g=0, b=0;
-
-
 var NUM_LEDS = 8,
 pixelData = new Uint32Array(NUM_LEDS);
-
-
 ws281x.init(NUM_LEDS);
+var refreshIntervalId1;
+var refreshIntervalId2;
 
-// ---- trap the SIGINT and reset before exit
-process.on('SIGINT', function () {
-  ws281x.reset();
-  process.nextTick(function () { process.exit(0); });
-});
-
-// ---- animation-loop
-var offset = 0;
-
-// rainbow-colors, taken from http://goo.gl/Cs3H0v
+// NeoPixel realted functions
 function colorwheel(pos) {
   pos = 255 - pos;
   if (pos < 85) { return rgb2Int(255 - pos * 3, 0, pos * 3); }
@@ -36,6 +24,12 @@ function colorwheel(pos) {
 function rgb2Int(r, g, b) {
   return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
+
+// Reset NeoPixels on exit
+process.on('SIGINT', function () {
+  ws281x.reset();
+  process.nextTick(function () { process.exit(0); });
+});
 
 
 // here's a fake hardware device that we'll expose to HomeKit
@@ -51,33 +45,30 @@ var FAKE_LIGHT = {
     FAKE_LIGHT.powerOn = on;
   },
   setAnimation1On: function(on) { 
-          var saturation = 0;
-          var hue = 0;
+    var saturation = 0;
+    var hue = 0;
 
     console.log("Turning the swimming pool light show ✨ 1️⃣  %s!", on ? "on" : "off");
     FAKE_LIGHT.animationOn = on;
     if (on) {
       // start animation-loop
-      refreshIntervalId = setInterval(function () {
+      refreshIntervalId1 = setInterval(function () {
         for (var i = 0; i < NUM_LEDS; i++) {
-          //pixelData[i] = colorwheel((offset + i) % 256);
           hue = (hue + 1) % 360;
           saturation = 100;
           var rgb = color.hsvToRgb(hue/360,saturation/100,FAKE_LIGHT.brightness/100);
-          // console.log("rgb: ",rgb[0], rgb[1], rgb[2]); 
           FAKE_LIGHT.hue = hue;
           FAKE_LIGHT.saturation = saturation;
           for (var i = 0; i < NUM_LEDS; i++) {
             pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
           }
         }
-        // offset = (offset + 1) % 256;
         ws281x.render(pixelData);
       }, 1000 / 30);
     }
     else {
       // stop animation-loop
-      clearInterval(refreshIntervalId);
+      clearInterval(refreshIntervalId1);
     }
   },
   setAnimation2On: function(on) { 
@@ -85,18 +76,18 @@ var FAKE_LIGHT = {
     FAKE_LIGHT.animationOn = on;
     if (on) {
       // start animation-loop
-      var offset = 0;
       refreshIntervalId2 = setInterval(function () {
-        var i=NUM_LEDS;
-        while(i--) {
-          pixelData[i] = 0;
+        for (var i = 0; i < NUM_LEDS; i++) {
+          saturation = (saturation + 1) % 100;
+          var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,saturation/100,FAKE_LIGHT.brightness/100);
+          FAKE_LIGHT.saturation = saturation;
+          for (var i = 0; i < NUM_LEDS; i++) {
+            pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+          }
         }
-        pixelData[offset] = 0xffffff;
-
-        offset = (offset + 1) % NUM_LEDS;
         ws281x.render(pixelData);
-      }, 100);
-    } 
+      }, 1000 / 30);
+    }
     else {
       // stop animation-loop
       clearInterval(refreshIntervalId2);
