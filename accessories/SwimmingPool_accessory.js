@@ -5,6 +5,8 @@ var uuid = require('../').uuid;
 var ws281x = require('rpi-ws281x-native');
 var color = require('./color.js');
 
+
+
 // NeoPixel realted declarations and instantiations
 var r=0, g=0, b=0;
 var NUM_LEDS = 8,
