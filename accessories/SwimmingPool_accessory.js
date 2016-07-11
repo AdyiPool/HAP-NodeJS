@@ -41,13 +41,26 @@ var FAKE_LIGHT = {
   saturation: 0,
   
   setPowerOn: function(on) { 
+    var localbrightness = 0;
     console.log("Turning the swimming pool lights 🏊 %s!", on ? "on" : "off");
-    var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.brightness/100);
-    for (var i = 0; i < NUM_LEDS; i++) {
-      pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+    if (on) {
+      var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.brightness/100);
+      for (var i = 0; i < NUM_LEDS; i++) {
+        pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+      }
+      ws281x.render(pixelData);
+      FAKE_LIGHT.powerOn = on;
     }
-    ws281x.render(pixelData);
-    FAKE_LIGHT.powerOn = on;
+    else
+    {
+      var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,localbrightness/100);
+      FAKE_LIGHT.brightness = localbrightness;  
+      for (var i = 0; i < NUM_LEDS; i++) {
+        pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+      }
+      ws281x.render(pixelData);
+      FAKE_LIGHT.powerOn = on;
+    }
   },
 
   setAnimation1On: function(on) { 
