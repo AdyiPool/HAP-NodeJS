@@ -12,6 +12,7 @@ pixelData = new Uint32Array(NUM_LEDS);
 ws281x.init(NUM_LEDS);
 var refreshIntervalId1;
 var refreshIntervalId2;
+var lastknownbrightness;
 
 // NeoPixel realted functions
 function colorwheel(pos) {
@@ -54,7 +55,7 @@ var FAKE_LIGHT = {
     else
     {
       var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,localbrightness/100);
-      FAKE_LIGHT.brightness = localbrightness;  
+      //FAKE_LIGHT.brightness = localbrightness;  
       for (var i = 0; i < NUM_LEDS; i++) {
         pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
       }
