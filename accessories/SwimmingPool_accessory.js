@@ -277,6 +277,7 @@ light
   .getService(Service.Lightbulb)
   .addCharacteristic(Characteristic.Brightness)
   .on('get', function(callback) {
+    console.log("❓What's the curent Brightness?");
     callback(null, FAKE_LIGHT.brightness);
   })
   .on('set', function(value, callback) {
@@ -288,6 +289,7 @@ light
   .getService(Service.Lightbulb)
   .addCharacteristic(Characteristic.Hue)
   .on('get',function(callback){
+   console.log("❓What's the curent Hue?");
    callback(null,FAKE_LIGHT.hue);
    })
    .on('set',function(value,callback){
@@ -299,6 +301,7 @@ light
   .getService(Service.Lightbulb)
   .addCharacteristic(Characteristic.Saturation)
   .on('get',function(callback){
+   console.log("❓What's the curent Saturation?");
    callback(null,FAKE_LIGHT.saturation);
    })
    .on('set',function(value,callback){
