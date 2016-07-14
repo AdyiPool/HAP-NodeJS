@@ -124,30 +124,37 @@ var FAKE_LIGHT = {
     var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,brightness/100);
     console.log("rgb: ",rgb[0], rgb[1], rgb[2]); 
     FAKE_LIGHT.brightness = brightness;
-    for (var i = 0; i < NUM_LEDS; i++) {
-      pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+    
+    if (FAKE_LIGHT.powerOn){
+      for (var i = 0; i < NUM_LEDS; i++) {
+        pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+      }
+      ws281x.render(pixelData);
     }
-    ws281x.render(pixelData);
   },
   setHue: function(hue){
     console.log("Setting swimming pool light Hue to %s", hue);
     var rgb = color.hsvToRgb(hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.brightness/100);
     console.log("rgb: ",rgb[0], rgb[1], rgb[2]); 
     FAKE_LIGHT.hue = hue;
-    for (var i = 0; i < NUM_LEDS; i++) {
-      pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
-    }
-    ws281x.render(pixelData);    
+    if (FAKE_LIGHT.powerOn){
+      for (var i = 0; i < NUM_LEDS; i++) {
+        pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+      }
+      ws281x.render(pixelData);
+    }  
   },
   setSaturation: function(saturation){
     console.log("Setting swimming pool light Saturation 💥 to %s", saturation);
     var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,saturation/100,FAKE_LIGHT.brightness/100);
     console.log("rgb: ",rgb[0], rgb[1], rgb[2]); 
     FAKE_LIGHT.saturation = saturation;
-    for (var i = 0; i < NUM_LEDS; i++) {
-      pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+    if (FAKE_LIGHT.powerOn){
+      for (var i = 0; i < NUM_LEDS; i++) {
+        pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+      }
+      ws281x.render(pixelData);
     }
-    ws281x.render(pixelData);
   },
   identify: function() {
     console.log("Identify the swimming pool light!");
@@ -202,7 +209,7 @@ light
     
     var err = null; // in case there were any problems
     
-    if (FAKE_LIGHT.powerOn || FAKE_LIGHT.brightness > 0 || FAKE_LIGHT.animationOn) {
+    if (FAKE_LIGHT.powerOn || FAKE_LIGHT.animationOn) {
       console.log("Is swimming pool light on? Yes.");
       callback(err, true);
     }
