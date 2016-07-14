@@ -275,32 +275,6 @@ light
     }
   });
 
-// Light show #3
-light
-  .addService(Service.Lightbulb) // services exposed to the user should have "names" like "Fake Light" for us
-  .getCharacteristic(Characteristic.LightShow3)
-  .on('set', function(value, callback) {
-    
-    if (value == Characteristic.LightShow3.SHOW1) {
-      //FAKE_LOCK.unlock();
-      //callback(); // Our fake Lock is synchronous - this value has been successfully set
-      
-      // now we want to set our lock's "actual state" to be unsecured so it shows as unlocked in iOS apps
-      light
-        .getService(Service.Lightbulb)
-        .setCharacteristic(Characteristic.On, true );
-    }
-    else if (value == Characteristic.LightShow3.SHOW2) {
-      // FAKE_LOCK.lock();
-      // callback(); // Our fake Lock is synchronous - this value has been successfully set
-      
-      // now we want to set our lock's "actual state" to be locked so it shows as open in iOS apps
-      light
-        .getService(Service.Lightbulb)
-        .setCharacteristic(Characteristic.On, false);
-    }
-  });
-
 
 // also add an "optional" Characteristic for Brightness
 light
