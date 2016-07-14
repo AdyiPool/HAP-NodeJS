@@ -202,7 +202,7 @@ light
     
     var err = null; // in case there were any problems
     
-    if (FAKE_LIGHT.powerOn) {
+    if (FAKE_LIGHT.powerOn || FAKE_LIGHT.brightness > 0 || FAKE_LIGHT.animationOn) {
       console.log("Is swimming pool light on? Yes.");
       callback(err, true);
     }
