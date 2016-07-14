@@ -193,11 +193,8 @@ light
   .getCharacteristic(Characteristic.On)
   .on('set', function(value, callback) {
     FAKE_LIGHT.setPowerOn(value);
-    callback(); // Our fake Light is synchronous - this value has been successfully set
-
     FAKE_LIGHT.setAnimation1On(value);
-    callback(); 
-    
+    callback(); // Our fake Light is synchronous - this value has been successfully set
   });
 
 // We want to intercept requests for our current power state so we can query the hardware itself instead of
