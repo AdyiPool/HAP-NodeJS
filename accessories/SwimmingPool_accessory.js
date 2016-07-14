@@ -277,7 +277,7 @@ light
 
 // Light show #3
 light
-  .addService(Service.Lightbulb) // services exposed to the user should have "names" like "Fake Light" for us
+  .getService(Service.Lightbulb) // services exposed to the user should have "names" like "Fake Light" for us
   .getCharacteristic(Characteristic.LightShow3)
   .on('set', function(value, callback) {
     
