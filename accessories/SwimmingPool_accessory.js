@@ -75,6 +75,7 @@ var FAKE_LIGHT = {
     FAKE_LIGHT.animationOn = on;
     if (on) {
       // start animation-loop
+      console.log("PowerOn = %s",FAKE_LIGHT.powerOn);
       refreshIntervalId1 = setInterval(function () {
         if (FAKE_LIGHT.powerOn){        
           for (var i = 0; i < NUM_LEDS; i++) {
