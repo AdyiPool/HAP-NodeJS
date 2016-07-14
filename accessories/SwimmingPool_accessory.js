@@ -76,17 +76,19 @@ var FAKE_LIGHT = {
     if (on) {
       // start animation-loop
       refreshIntervalId1 = setInterval(function () {
-        for (var i = 0; i < NUM_LEDS; i++) {
-          hue = (hue + 1) % 360;
-          saturation = 100;
-          var rgb = color.hsvToRgb(hue/360,saturation/100,FAKE_LIGHT.brightness/100);
-          FAKE_LIGHT.hue = hue;
-          FAKE_LIGHT.saturation = saturation;
+        if (FAKE_LIGHT.powerOn){        
           for (var i = 0; i < NUM_LEDS; i++) {
-            pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+            hue = (hue + 1) % 360;
+            saturation = 100;
+            var rgb = color.hsvToRgb(hue/360,saturation/100,FAKE_LIGHT.brightness/100);
+            FAKE_LIGHT.hue = hue;
+            FAKE_LIGHT.saturation = saturation;
+            for (var i = 0; i < NUM_LEDS; i++) {
+              pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+            }
           }
+          ws281x.render(pixelData);
         }
-        ws281x.render(pixelData);
       }, 1000 / 30);
     }
     else {
@@ -102,15 +104,17 @@ var FAKE_LIGHT = {
     if (on) {
       // start animation-loop
       refreshIntervalId2 = setInterval(function () {
-        for (var i = 0; i < NUM_LEDS; i++) {
-          saturation = (saturation + 1) % 100;
-          var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,saturation/100,FAKE_LIGHT.brightness/100);
-          FAKE_LIGHT.saturation = saturation;
+        if (FAKE_LIGHT.powerOn){
           for (var i = 0; i < NUM_LEDS; i++) {
-            pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+            saturation = (saturation + 1) % 100;
+            var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,saturation/100,FAKE_LIGHT.brightness/100);
+            FAKE_LIGHT.saturation = saturation;
+            for (var i = 0; i < NUM_LEDS; i++) {
+              pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+            }
           }
+          ws281x.render(pixelData);
         }
-        ws281x.render(pixelData);
       }, 1000 / 30);
     }
     else {
@@ -209,7 +213,7 @@ light
     
     var err = null; // in case there were any problems
     
-    if (FAKE_LIGHT.powerOn || FAKE_LIGHT.animationOn) {
+    if (FAKE_LIGHT.powerOn) {
       console.log("Is swimming pool light on? Yes.");
       callback(err, true);
     }
