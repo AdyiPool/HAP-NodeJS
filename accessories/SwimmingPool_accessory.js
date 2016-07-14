@@ -61,6 +61,10 @@ var FAKE_LIGHT = {
       }
       ws281x.render(pixelData);
       FAKE_LIGHT.powerOn = on;
+
+      // stop animation-loop
+      clearInterval(refreshIntervalId1);
+      clearInterval(refreshIntervalId2);      
     }
   },
 
