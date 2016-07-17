@@ -39,7 +39,11 @@ var FAKE_SENSOR = {
       FAKE_SENSOR.currentTemperature = temp;
       pubnub.publish({
         channel   : 'pool_temperature',
-        message   : temp,
+        message   : {
+          eon: {
+            ' Pool Temperature' : temp
+          }
+        },
         callback  : function(e) { 
           console.log( "SUCCESS! Posted temperature to PubNub on channel pool_temperature", e );
         },
