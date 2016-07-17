@@ -49,9 +49,8 @@ var FAKE_SENSOR = {
   //         FAKE_SENSOR.read();
   //     }, 2000);
 
-      sensor.get('28-00043e91eeff', function (err, temp) {
-        console.log(temp);
-      });
+      var temp = sensor.get('28-00043e91eeff');
+      console.log(temp);
       setTimeout(function () {
         FAKE_SENSOR.read();
       }, 2000);
