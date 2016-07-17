@@ -29,11 +29,11 @@ var FAKE_SENSOR = {
         
     if(DS18B20sensor.isDriverLoaded()){
       var temp = DS18B20sensor.get('28-00043e91eeff');
-      console.log(temp);
+      // console.log(temp);
       FAKE_SENSOR.currentTemperature = temp;
       setTimeout(function () {
         FAKE_SENSOR.read();
-      }, 2000);
+      }, 20000);
     }
   }
 }
