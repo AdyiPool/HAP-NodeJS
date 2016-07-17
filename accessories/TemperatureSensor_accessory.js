@@ -32,17 +32,10 @@ var FAKE_SENSOR = {
   // }
 
 
-sensor.get('28-00043e91eeff', function (err, temp) {
-    console.log(temp);
-      setTimeout(function () {
-        FAKE_SENSOR.sensor.get();
-      }, 2000);
-
-
-});
-
-
-    // read: function () {
+    initialize: function () {
+        return sensorLib.initialize(11, 23);
+    },
+    read: function () {
         
   //    if (FAKE_SENSOR.initialize()) {
   //      var readout = sensorLib.read();
@@ -56,15 +49,15 @@ sensor.get('28-00043e91eeff', function (err, temp) {
   //         FAKE_SENSOR.read();
   //     }, 2000);
 
-    //   var temp = sensor.get('28-00043e91eeff');
-    //   console.log(temp);
-    //   setTimeout(function () {
-    //     FAKE_SENSOR.read();
-    //   }, 2000);
-    // }
+      var temp = sensor.get('28-00043e91eeff');
+      console.log(temp);
+      setTimeout(function () {
+        FAKE_SENSOR.read();
+      }, 2000);
+    }
 
 
-// }
+}
 
 
 // Generate a consistent UUID for our Temperature Sensor Accessory that will remain the same
@@ -94,7 +87,7 @@ sensor
 setInterval(function() {
   
   //FAKE_SENSOR.randomizeTemperature();
-  FAKE_SENSOR.sensor.get();
+  FAKE_SENSOR.read();
   
   // update the characteristic value so interested iOS devices can get notified
   sensor
