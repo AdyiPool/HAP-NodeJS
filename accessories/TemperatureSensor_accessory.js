@@ -3,6 +3,21 @@ var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
 //var sensorLib = require('node-dht-sensor');
+var sensor = require('ds18x20');
+
+sensor.isDriverLoaded(function (err, isLoaded) {
+    console.log("DS18B20 Drive is loaded? : ", isLoaded);
+});
+
+sensor.loadDriver(function (err) {
+    if (err) console.log('something went wrong loading the driver:', err)
+    else console.log('DS18B20 driver is now loaded');
+});
+
+sensor.list(function (err, listOfDeviceIds) {
+    console.log("DS18B20 found: ",listOfDeviceIds);
+});
+
 
 // here's a fake temperature sensor device that we'll expose to HomeKit
 var FAKE_SENSOR = {
@@ -30,10 +45,16 @@ var FAKE_SENSOR = {
   //    else {
   //      console.warn('Failed to initialize sensor');
   //    }
+  //     setTimeout(function () {
+  //         FAKE_SENSOR.read();
+  //     }, 2000);
 
-      // setTimeout(function () {
-      //     FAKE_SENSOR.read();
-      // }, 2000);
+      sensor.get('28-00043e91eeff', function (err, temp) {
+        console.log(temp);
+      });
+      setTimeout(function () {
+        FAKE_SENSOR.read();
+      }, 2000);
     }
 
 
