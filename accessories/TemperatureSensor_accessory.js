@@ -3,6 +3,12 @@ var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
 var DS18B20sensor = require('ds18x20');
+var pubnub = require("pubnub")({
+    ssl           : true,  // <- enable TLS Tunneling over TCP
+    publish_key   : "pub-c-253d9808-4245-4291-a886-11ffc7fbd99c",
+    subscribe_key : "sub-c-a7f1dc76-fd29-11e5-8180-0619f8945a4f"
+});
+
 
 DS18B20sensor.isDriverLoaded(function (err, isLoaded) {
     console.log("DS18B20 Drive is loaded? : ", isLoaded);
@@ -29,11 +35,18 @@ var FAKE_SENSOR = {
         
     if(DS18B20sensor.isDriverLoaded()){
       var temp = DS18B20sensor.get('28-00043e91eeff');
-      // console.log(temp);
+      console.log("Current Temperature: ",temp);
       FAKE_SENSOR.currentTemperature = temp;
-      // setTimeout(function () {
-      //   FAKE_SENSOR.read();
-      // }, 20000);
+      pubnub.publish({
+        channel   : 'pool_temperature',
+        message   : temp,
+        callback  : function(e) { 
+          console.log( "SUCCESS! Posted temperature to PubNub on channel pool_temperature", e );
+        },
+        error     : function(e) { 
+          console.log( "FAILED! RETRY PUBLISH!", e );
+        }
+      });
     }
   }
 }
