@@ -31,11 +31,7 @@ var FAKE_SENSOR = {
   //   FAKE_SENSOR.currentTemperature = Math.round(Math.random() * 100);
   // }
 
-
-    initialize: function () {
-        return sensorLib.initialize(11, 23);
-    },
-    read: function () {
+  read: function () {
         
   //    if (FAKE_SENSOR.initialize()) {
   //      var readout = sensorLib.read();
@@ -48,15 +44,14 @@ var FAKE_SENSOR = {
   //     setTimeout(function () {
   //         FAKE_SENSOR.read();
   //     }, 2000);
-
+    if(sensor.isDriverLoaded()){
       var temp = sensor.get('28-00043e91eeff');
       console.log(temp);
       setTimeout(function () {
         FAKE_SENSOR.read();
       }, 2000);
     }
-
-
+  }
 }
 
 
