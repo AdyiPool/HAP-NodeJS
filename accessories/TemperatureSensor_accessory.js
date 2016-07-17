@@ -31,9 +31,9 @@ var FAKE_SENSOR = {
       var temp = DS18B20sensor.get('28-00043e91eeff');
       // console.log(temp);
       FAKE_SENSOR.currentTemperature = temp;
-      setTimeout(function () {
-        FAKE_SENSOR.read();
-      }, 20000);
+      // setTimeout(function () {
+      //   FAKE_SENSOR.read();
+      // }, 20000);
     }
   }
 }
