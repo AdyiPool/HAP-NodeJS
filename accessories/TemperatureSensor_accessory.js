@@ -2,22 +2,20 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
-//var sensorLib = require('node-dht-sensor');
-var sensor = require('ds18x20');
+var DS18B20sensor = require('ds18x20');
 
-sensor.isDriverLoaded(function (err, isLoaded) {
+DS18B20sensor.isDriverLoaded(function (err, isLoaded) {
     console.log("DS18B20 Drive is loaded? : ", isLoaded);
 });
 
-sensor.loadDriver(function (err) {
+DS18B20sensor.loadDriver(function (err) {
     if (err) console.log('something went wrong loading the driver:', err)
     else console.log('DS18B20 driver is now loaded');
 });
 
-sensor.list(function (err, listOfDeviceIds) {
+DS18B20sensor.list(function (err, listOfDeviceIds) {
     console.log("DS18B20 found: ",listOfDeviceIds);
 });
-
 
 // here's a fake temperature sensor device that we'll expose to HomeKit
 var FAKE_SENSOR = {
@@ -26,26 +24,11 @@ var FAKE_SENSOR = {
     console.log("Getting the current temperature!");
     return FAKE_SENSOR.currentTemperature;
   },
-  // randomizeTemperature: function() {
-  //   // randomize temperature to a value between 0 and 100
-  //   FAKE_SENSOR.currentTemperature = Math.round(Math.random() * 100);
-  // }
 
   read: function () {
         
-  //    if (FAKE_SENSOR.initialize()) {
-  //      var readout = sensorLib.read();
-  //      console.log('Temperature: ' + readout.temperature.toFixed(2) + 'C, ' + 'humidity: ' + readout.humidity.toFixed(2) + '%');
-  //      FAKE_SENSOR.currentTemperature = readout.temperature.toFixed(2);
-  //    } 
-  //    else {
-  //      console.warn('Failed to initialize sensor');
-  //    }
-  //     setTimeout(function () {
-  //         FAKE_SENSOR.read();
-  //     }, 2000);
-    if(sensor.isDriverLoaded()){
-      var temp = sensor.get('28-00043e91eeff');
+    if(DS18B20sensor.isDriverLoaded()){
+      var temp = DS18B20sensor.get('28-00043e91eeff');
       console.log(temp);
       setTimeout(function () {
         FAKE_SENSOR.read();
@@ -53,7 +36,6 @@ var FAKE_SENSOR = {
     }
   }
 }
-
 
 // Generate a consistent UUID for our Temperature Sensor Accessory that will remain the same
 // even when restarting our server. We use the `uuid.generate` helper function to create
