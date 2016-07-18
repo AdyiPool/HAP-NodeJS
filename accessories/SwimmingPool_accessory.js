@@ -40,7 +40,7 @@ var FAKE_LIGHT = {
   animationOn: false,
   hue: 0,
   saturation: 0,
-  lightShowSpeed: 0,
+  lightShowSpeed: 100,
   
   setPowerOn: function(on) { 
     var localbrightness = 0;
