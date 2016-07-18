@@ -40,6 +40,7 @@ var FAKE_LIGHT = {
   animationOn: false,
   hue: 0,
   saturation: 0,
+  lightShowSpeed: 0,
   
   setPowerOn: function(on) { 
     var localbrightness = 0;
@@ -90,7 +91,7 @@ var FAKE_LIGHT = {
           }
           ws281x.render(pixelData);
         }
-      }, 1000 / 30);
+      }, (FAKE_LIGHT.lightShowSpeed *10) / 30);
     }
     else {
       // stop animation-loop
@@ -123,6 +124,14 @@ var FAKE_LIGHT = {
       clearInterval(refreshIntervalId2);
     }
   },
+
+  changeAnimationSpeed: function(speed) { 
+    console.log("Changing the light show speed to ", speed);
+    FAKE_LIGHT.lightShowSpeed = speed;
+    FAKE_LIGHT.setAnimation1On(true); 
+  },
+
+
 
   setBrightness: function(brightness) {
     console.log("Setting swimming pool light brightness ☀️ to %s a,d Hue: %s Saturation: %s", brightness, FAKE_LIGHT.hue, FAKE_LIGHT.saturation);
@@ -285,6 +294,26 @@ light
       console.log("Is swimming pool light show #2 on? No.");
       callback(err, false);
     }
+  });
+
+
+// Light Show Speed
+
+light
+  .getService(Service.Lightbulb)
+  .getCharacteristic(Characteristic.LightShowSpeed)
+  .on('set', function(value, callback) {
+    FAKE_LIGHT.changeAnimationSpeed(value);
+    callback(); // Our fake Light is synchronous - this value has been successfully set
+  });
+
+light
+  .getService(Service.Lightbulb)
+  .getCharacteristic(Characteristic.LightShowSpeed)
+  .on('get', function(callback) {
+    var err = null; // in case there were any problems
+    console.log("❓What's the curent LightShowSpeed?");
+    callback(null, FAKE_LIGHT.lightShowSpeed);
   });
 
 
