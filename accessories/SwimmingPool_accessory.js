@@ -77,6 +77,8 @@ var FAKE_LIGHT = {
     if (on) {
       // start animation-loop
       console.log("PowerOn = %s",FAKE_LIGHT.powerOn);
+
+      console.log("New light show speed: ", FAKE_LIGHT.lightShowSpeed);
       refreshIntervalId1 = setInterval(function () {
         if (FAKE_LIGHT.powerOn){        
           for (var i = 0; i < NUM_LEDS; i++) {
