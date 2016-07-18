@@ -40,7 +40,7 @@ var FAKE_LIGHT = {
   animationOn: false,
   hue: 0,
   saturation: 0,
-  lightShowSpeed: 100,
+  lightShowSpeed: 0,
   
   setPowerOn: function(on) { 
     var localbrightness = 0;
@@ -93,7 +93,7 @@ var FAKE_LIGHT = {
           }
           ws281x.render(pixelData);
         }
-      }, (FAKE_LIGHT.lightShowSpeed *10) / 30);
+      }, ((101 - FAKE_LIGHT.lightShowSpeed) *10) / 30);
     }
     else {
       // stop animation-loop
@@ -129,7 +129,7 @@ var FAKE_LIGHT = {
 
   changeAnimationSpeed: function(speed) { 
     console.log("Changing the light show speed to ", speed);
-    FAKE_LIGHT.lightShowSpeed = (101-speed);
+    FAKE_LIGHT.lightShowSpeed = speed;
     clearInterval(refreshIntervalId1);
     FAKE_LIGHT.setAnimation1On(true); 
   },
