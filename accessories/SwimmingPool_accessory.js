@@ -129,7 +129,7 @@ var FAKE_LIGHT = {
 
   changeAnimationSpeed: function(speed) { 
     console.log("Changing the light show speed to ", speed);
-    FAKE_LIGHT.lightShowSpeed = speed;
+    FAKE_LIGHT.lightShowSpeed = (101-speed);
     clearInterval(refreshIntervalId1);
     FAKE_LIGHT.setAnimation1On(true); 
   },
