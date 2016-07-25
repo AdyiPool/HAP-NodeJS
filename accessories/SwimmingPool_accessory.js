@@ -91,10 +91,11 @@ var FAKE_LIGHT = {
       FAKE_LIGHT.fade_brightness = FAKE_LIGHT.brightness; // initialize the brightness
       // start fading
       console.log("PowerOn = %s",FAKE_LIGHT.powerOn);
+      console.log("FAKE_LIGHT.fade_brightness = %s",FAKE_LIGHT.fade_brightness);
 
       refreshIntervalId1 = setInterval(function () {
-        if (FAKE_LIGHT.powerOn){
-          console.log("I came here");        
+//        if (FAKE_LIGHT.powerOn){
+          console.log("Fading brightness = %s", FAKE_LIGHT.fade_brightness);        
           for (var i = 0; i < NUM_LEDS; i++) {
             var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.fade_brightness/100);
 
@@ -107,7 +108,7 @@ var FAKE_LIGHT = {
 
           }
           ws281x.render(pixelData);
-        }
+//        }
       }, ((101 - FAKE_LIGHT.lightShowSpeed) *10) / 30);
       FAKE_LIGHT.powerOn = on;
 
