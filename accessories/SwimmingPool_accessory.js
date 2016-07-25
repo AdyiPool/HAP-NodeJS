@@ -62,8 +62,6 @@ var FAKE_LIGHT = {
       refreshIntervalId1 = setInterval(function () {
         if (FAKE_LIGHT.powerOn){        
           for (var i = 0; i < NUM_LEDS; i++) {
-            hue = (hue + 1) % 360;
-            saturation = 100;
             var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.fade_brightness/100);
 
             for (var i = 0; i < NUM_LEDS; i++) {
