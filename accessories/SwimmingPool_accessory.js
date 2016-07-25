@@ -55,8 +55,7 @@ var FAKE_LIGHT = {
 //      FAKE_LIGHT.powerOn = on;
  
       FAKE_LIGHT.fade_brightness = 0; // reset the brightness
-
-      // start animation-loop
+      // start fading
       console.log("PowerOn = %s",FAKE_LIGHT.powerOn);
 
       refreshIntervalId1 = setInterval(function () {
@@ -80,12 +79,35 @@ var FAKE_LIGHT = {
     }
     else
     {
-      var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,localbrightness/100);
-      //FAKE_LIGHT.brightness = localbrightness;  
-      for (var i = 0; i < NUM_LEDS; i++) {
-        pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
-      }
-      ws281x.render(pixelData);
+//      var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,localbrightness/100);
+//      //FAKE_LIGHT.brightness = localbrightness;  
+//      for (var i = 0; i < NUM_LEDS; i++) {
+//        pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+//      }
+//      ws281x.render(pixelData);
+//      FAKE_LIGHT.powerOn = on;
+
+
+      FAKE_LIGHT.fade_brightness = FAKE_LIGHT.brightness; // initialize the brightness
+      // start fading
+      console.log("PowerOn = %s",FAKE_LIGHT.powerOn);
+
+      refreshIntervalId1 = setInterval(function () {
+        if (!FAKE_LIGHT.powerOn){        
+          for (var i = 0; i < NUM_LEDS; i++) {
+            var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.fade_brightness/100);
+
+            for (var i = 0; i < NUM_LEDS; i++) {
+              pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+            }
+            if(FAKE_LIGHT.fade_brightness > localbrightness){
+              FAKE_LIGHT.fade_brightness = FAKE_LIGHT.fade_brightness - 1;
+            }
+
+          }
+          ws281x.render(pixelData);
+        }
+      }, ((101 - FAKE_LIGHT.lightShowSpeed) *10) / 30);
       FAKE_LIGHT.powerOn = on;
 
       // stop animation-loop
