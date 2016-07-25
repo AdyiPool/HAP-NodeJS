@@ -111,8 +111,8 @@ var FAKE_LIGHT = {
       FAKE_LIGHT.powerOn = on;
 
       // stop animation-loop
-      clearInterval(refreshIntervalId1);
-      clearInterval(refreshIntervalId2);      
+      // clearInterval(refreshIntervalId1);
+      // clearInterval(refreshIntervalId2);      
     }
   },
 
