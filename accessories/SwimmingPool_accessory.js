@@ -93,7 +93,7 @@ var FAKE_LIGHT = {
       console.log("PowerOn = %s",FAKE_LIGHT.powerOn);
 
       refreshIntervalId1 = setInterval(function () {
-        if (!FAKE_LIGHT.powerOn){        
+        if (FAKE_LIGHT.powerOn){        
           for (var i = 0; i < NUM_LEDS; i++) {
             var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.fade_brightness/100);
 
