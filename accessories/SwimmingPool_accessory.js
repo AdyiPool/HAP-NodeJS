@@ -12,6 +12,8 @@ pixelData = new Uint32Array(NUM_LEDS);
 ws281x.init(NUM_LEDS);
 var refreshIntervalId1;
 var refreshIntervalId2;
+var refreshIntervalId3;
+var refreshIntervalId4;
 var lastknownbrightness;
 
 // NeoPixel realted functions
