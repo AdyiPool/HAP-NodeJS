@@ -39,20 +39,20 @@ var FAKE_SENSOR = {
       console.log("Current Temperature: ",temp);
 
       FAKE_SENSOR.currentTemperature = temp;
-      pubnub.publish({
-        channel   : 'pool_temperature',
-        message   : {
-          eon: {
-            ' Pool Temperature' : temp
-          }
-        },
-        callback  : function(e) { 
-          console.log( "SUCCESS! Posted temperature to PubNub on channel pool_temperature", e );
-        },
-        error     : function(e) { 
-          console.log( "FAILED! RETRY PUBLISH!", e );
-        }
-      });
+      // pubnub.publish({
+      //   channel   : 'pool_temperature',
+      //   message   : {
+      //     eon: {
+      //       ' Pool Temperature' : temp
+      //     }
+      //   },
+      //   callback  : function(e) { 
+      //     console.log( "SUCCESS! Posted temperature to PubNub on channel pool_temperature", e );
+      //   },
+      //   error     : function(e) { 
+      //     console.log( "FAILED! RETRY PUBLISH!", e );
+      //   }
+      // });
     }
   }
 }
