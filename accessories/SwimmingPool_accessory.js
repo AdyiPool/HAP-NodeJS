@@ -37,6 +37,7 @@ process.on('SIGINT', function () {
 var FAKE_LIGHT = {
   powerOn: false,
   brightness: 100, // percentage
+  fade_brightness: 0,
   animationOn: false,
   hue: 0,
   saturation: 0,
@@ -46,12 +47,38 @@ var FAKE_LIGHT = {
     var localbrightness = 0;
     console.log("Turning the swimming pool lights 🏊 %s!", on ? "on" : "off");
     if (on) {
-      var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.brightness/100);
-      for (var i = 0; i < NUM_LEDS; i++) {
-        pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
-      }
-      ws281x.render(pixelData);
+//      var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.brightness/100);
+//      for (var i = 0; i < NUM_LEDS; i++) {
+//        pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+//      }
+//      ws281x.render(pixelData);
+//      FAKE_LIGHT.powerOn = on;
+ 
+      FAKE_LIGHT.fade_brightness = 0; // reset the brightness
+
+      // start animation-loop
+      console.log("PowerOn = %s",FAKE_LIGHT.powerOn);
+
+      refreshIntervalId1 = setInterval(function () {
+        if (FAKE_LIGHT.powerOn){        
+          for (var i = 0; i < NUM_LEDS; i++) {
+            hue = (hue + 1) % 360;
+            saturation = 100;
+            var rgb = color.hsvToRgb(FAKE_LIGHT.hue/360,FAKE_LIGHT.saturation/100,FAKE_LIGHT.fade_brightness/100);
+
+            for (var i = 0; i < NUM_LEDS; i++) {
+              pixelData[i] = rgb2Int(rgb[0], rgb[1], rgb[2]);
+            }
+            if(FAKE_LIGHT.fade_brightness < FAKE_LIGHT.brightness){
+              FAKE_LIGHT.fade_brightness = FAKE_LIGHT.fade_brightness + 1;
+            }
+
+          }
+          ws281x.render(pixelData);
+        }
+      }, ((101 - FAKE_LIGHT.lightShowSpeed) *10) / 30);
       FAKE_LIGHT.powerOn = on;
+
     }
     else
     {
