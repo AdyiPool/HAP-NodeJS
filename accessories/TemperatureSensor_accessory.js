@@ -33,9 +33,9 @@ var FAKE_SENSOR = {
 
   read: function () {
         
-    if(DS18B20sensor.isDriverLoaded()){
+    //if(DS18B20sensor.isDriverLoaded()){
      // var temp = DS18B20sensor.get('28-00043eb839ff');
-    var temp = DS18B20sensor.getAll();
+    var temp = 0; //DS18B20sensor.getAll();
       console.log("Current Temperature: ",temp);
 
       FAKE_SENSOR.currentTemperature = temp;
@@ -53,7 +53,7 @@ var FAKE_SENSOR = {
       //     console.log( "FAILED! RETRY PUBLISH!", e );
       //   }
       // });
-    }
+    //}
   }
 }
 
